@@ -32,8 +32,8 @@ public class UiResult extends JDialog {
         jbConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 여기에 확인 버튼 클릭 시 동작할 내용을 추가하세요.
-                // 예를 들어, 다이얼로그를 닫거나 다른 작업을 수행할 수 있습니다.
+                // 여기에 확인 버튼 클릭 시 동작할 내용을 추가
+                
                 dispose(); // 다이얼로그 닫기
             }
         });
@@ -80,7 +80,7 @@ public class UiResult extends JDialog {
         label5.setBounds(80, labelY, 400, 50); // Y 좌표 기준 값 사용
         jp.add(label5);
 
-        labelY += 80; // Y 좌표 기준 값 증가
+        labelY += 90; // Y 좌표 기준 값 증가
 
         JLabel label6 = new JLabel("4. 요청이 가장 많은 시간");
         label6.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -88,7 +88,7 @@ public class UiResult extends JDialog {
         label6.setBounds(80, labelY, 400, 30); // Y 좌표 기준 값 사용
         jp.add(label6);
 
-        labelY += 50; // Y 좌표 기준 값 증가
+        labelY += 80; // Y 좌표 기준 값 증가
 
         JLabel label7 = new JLabel("5. 비정상 요청 횟수와 비율");
         label7.setFont(new Font("맑은 고딕", Font.BOLD, 20));
