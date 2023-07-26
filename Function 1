@@ -13,7 +13,7 @@ public class Function {
 	private List<String> logList;
 	private Map<String, Integer> logMap;
 
-	// 1. 최다사용 키의 이름과 횟수를 출력하는 method
+	// 1. 최다사용 키의 이름과 횟수를 출력하는 method.
 	public void function_1() throws IOException {
 		// 파일 List를 불러옴
 		uf = new UseFile();
