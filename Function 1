@@ -13,7 +13,7 @@ public class Function {
 	private List<String> logList;
 	private Map<String, Integer> logMap;
 
-	// 1. 최다사용 키의 이름과 횟수를 출력하는 method.
+	// 1. 최다사용 키의 이름과 횟수를 출력하는 method
 	public void function_1() throws IOException {
 		// 파일 List를 불러옴
 		uf = new UseFile();
@@ -67,6 +67,9 @@ public class Function {
 	public void function_2() {
 		int chromeCnt = 0;
 		int ieCnt = 0;
+		int operaCnt = 0;
+		int firefoxCnt = 0;
+		int safariCnt = 0;
 		int allCnt = logList.size();
 
 		for (String log : logList) {
@@ -74,11 +77,20 @@ public class Function {
 				chromeCnt++;
 			} else if (log.indexOf("[ie]") != -1) {
 				ieCnt++;
+			} else if (log.indexOf("[opera]") != -1) {
+				operaCnt++;
+			} else if (log.indexOf("[firefox]") != -1) {
+				firefoxCnt++;
+			} else if (log.indexOf("[Safari]") != -1) {
+				safariCnt++;
 			} // end if
 
 		} // end for
 		System.out.printf("Chrome - %d ( %.2f %% )\n", chromeCnt, ((double) chromeCnt / allCnt * 100));
 		System.out.printf("IE - %d ( %.2f %% )\n", ieCnt, ((double) ieCnt / allCnt * 100));
+		System.out.printf("opera - %d ( %.2f %% )\n", operaCnt, ((double) operaCnt / allCnt * 100));
+		System.out.printf("firefox - %d ( %.2f %% )\n", firefoxCnt, ((double) firefoxCnt / allCnt * 100));
+		System.out.printf("Safari - %d ( %.2f %% )\n", safariCnt, ((double) safariCnt / allCnt * 100));
 	}// function_2
 
 	// 4. 요청이 가장 많은 시간
@@ -91,7 +103,7 @@ public class Function {
 		int timeEndIndex = 0;
 		String key = null;
 		for (String log : logList) {
-			timeStartIndex = log.lastIndexOf("-") + 1; // '-' 다음 인덱스부터 시간대가 시작됨
+			timeStartIndex = log.lastIndexOf("-") + 4; // '-' 다음 인덱스부터 시간대가 시작됨
 			timeEndIndex = timeStartIndex + 2; // 시간대는 두 자리 숫자로 구성되어 있음
 
 			if (timeEndIndex <= log.length()) {
@@ -118,16 +130,23 @@ public class Function {
 			} // end if
 		} // end for
 
-		System.out.println("요청이 많은 시간대: " + maxTimeSlot + "시");
+		System.out.println(maxTimeSlot + "시");
 
 	}// function_4
 
 	public static void main(String[] args) {
 		Function f1 = new Function();
 		try {
+
+			System.out.println("최다사용 키의 이름과 횟수 : \n");
 			f1.function_1();
+			System.out.println("--------------------------------");
+			System.out.println("\n브라우저별 접속 횟수, 비율 : \n");
 			f1.function_2();
+			System.out.println("--------------------------------");
+			System.out.println("\n요청이 가장 많은 시간 : \n");
 			f1.function_4();
+			System.out.println("--------------------------------");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} // end catch
