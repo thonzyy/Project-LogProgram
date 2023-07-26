@@ -18,7 +18,7 @@ public class UiResult extends JDialog {
 
     public UiResult() {
 
-        ImageIcon icon = new ImageIcon("C:/Users/dltmd/Desktop/backg.jpg");
+        ImageIcon icon = new ImageIcon("C:/Users/dltmd/Desktop/backgr.jpg");
         JPanel jp = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
