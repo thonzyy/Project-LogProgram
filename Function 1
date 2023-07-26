@@ -24,6 +24,8 @@ public class Function {
 		logMap = new HashMap<>();
 
 		int keyStartIndex = 0;
+		int keyEndIndex = 0;
+		String key = null;
 		for (String log : logList) {
 			// "key="의 시작 인덱스를 찾음
 			// 'keyStartIndex'를 사용하여 각 로그에서 "key="라는 문자열을 찾는다
@@ -34,11 +36,11 @@ public class Function {
 				keyStartIndex += 4; // "key=" 다음 위치로 이동
 
 				// "&" 문자 이전까지의 인덱스를 찾음
-				int keyEndIndex = log.indexOf("&", keyStartIndex);
+				keyEndIndex = log.indexOf("&", keyStartIndex);
 				if (keyEndIndex == -1) {
 					keyEndIndex = log.length(); // "&"문자가 없으면 끝까지가 키의 끝
 				} // end if
-				String key = log.substring(keyStartIndex, keyEndIndex); // 키 값을 추출
+				key = log.substring(keyStartIndex, keyEndIndex); // 키 값을 추출
 				logMap.put(key, logMap.getOrDefault(key, 0) + 1);
 			} // end if
 		} // end for
@@ -46,10 +48,12 @@ public class Function {
 		// 최다 사용을 키를 구하는 일
 		String maxVariable = null;
 		int maxValue = Integer.MIN_VALUE;
+		int value = 0;
+		String variable = null;
 		for (Map.Entry<String, Integer> entry : logMap.entrySet()) {
-			String variable = entry.getKey();
+			variable = entry.getKey();
 			// 만약 현재 엔트리의 값이 maxValue보다 크다면, maxValue 와 maxVarialbe를 해당 엔트리의 값과 키로 갱신
-			int value = entry.getValue();
+			value = entry.getValue();
 			if (value > maxValue) {
 				maxVariable = variable;
 				maxValue = value;
@@ -83,12 +87,15 @@ public class Function {
 
 //		logList에 저장된 로그 데이터를 순회하면서 각 로그의 시간대를 추출합니다.
 		// 각 로그에서 시간대를 추출하고, 시간대별 사용량을 계산하여 logMap에 저장
+		int timeStartIndex = 0;
+		int timeEndIndex = 0;
+		String key = null;
 		for (String log : logList) {
-			int timeStartIndex = log.lastIndexOf("-") + 1; // '-' 다음 인덱스부터 시간대가 시작됨
-			int timeEndIndex = timeStartIndex + 2; // 시간대는 두 자리 숫자로 구성되어 있음
+			timeStartIndex = log.lastIndexOf("-") + 1; // '-' 다음 인덱스부터 시간대가 시작됨
+			timeEndIndex = timeStartIndex + 2; // 시간대는 두 자리 숫자로 구성되어 있음
 
 			if (timeEndIndex <= log.length()) {
-				String key = log.substring(timeStartIndex, timeEndIndex);
+				key = log.substring(timeStartIndex, timeEndIndex);
 				logMap.put(key, logMap.getOrDefault(key, 0) + 1);
 			} // end if
 		} // end for
@@ -99,10 +106,12 @@ public class Function {
 //		최다 사용 시간대를 출력합니다.
 		// 최다 사용 시간대를 구하는 일
 		String maxTimeSlot = null;
+		int usage = 0;
+		String timeSlot = null;
 		int maxUsage = Integer.MIN_VALUE;
 		for (Map.Entry<String, Integer> entry : logMap.entrySet()) {
-			String timeSlot = entry.getKey();
-			int usage = entry.getValue();
+			timeSlot = entry.getKey();
+			usage = entry.getValue();
 			if (usage > maxUsage) {
 				maxTimeSlot = timeSlot;
 				maxUsage = usage;
