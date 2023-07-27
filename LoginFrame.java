@@ -5,13 +5,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class LoginFrame extends JFrame {
 	
-	private static final long serialVersionUID = -2173728270584084143L;
-	
+	private JPanel background;
 	private JLabel jlblTitle;
 	private JLabel jlblID;
 	private JLabel jlblPW;
@@ -24,7 +25,8 @@ public class LoginFrame extends JFrame {
 		
 		setLayout(null);
 		
-		jlblTitle = new JLabel(new ImageIcon());
+		
+		jlblTitle = new JLabel();
 		jlblTitle.setText("로그인");
 		jlblTitle.setVerticalTextPosition(JLabel.BOTTOM);
 		jlblTitle.setFont(new Font(null, Font.BOLD, 24));
@@ -48,8 +50,10 @@ public class LoginFrame extends JFrame {
 		
 		jbtnLogin = new JButton("로그인");
 		jbtnLogin.setBounds(150, jlblPW.getY()+50, 80, 35);
+		
 		LoginEvt le = new LoginEvt(this);
 		jbtnLogin.addActionListener(le);
+		jtfID.addKeyListener(le);
 		
 		addWindowListener(le);
 		
@@ -77,6 +81,10 @@ public class LoginFrame extends JFrame {
 
 	public JPasswordField getJpfPW() {
 		return jpfPW;
+	}
+	
+	public JButton getJbtnLogin() {
+		return jbtnLogin;
 	}
 
 	public static void main(String[] args) {

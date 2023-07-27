@@ -1,41 +1,56 @@
-package kr.co.sist.log;
+package Login;
+
 
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 public class UiEvt extends WindowAdapter implements ActionListener, KeyListener {
 	private Ui ui;
+	private LogIO logio;
+	
 	private FileDialog fd;
-	private boolean flag;
 	private String fName;
-	private String filePath;
+//	private String filePath;
 
 	public UiEvt(Ui ui) {
 		this.ui = ui;
-		flag = true;
+		this.logio = new LogIO(ui);
 	}// UiEvt
 	
 	//파일 열기 메소드
 	public void openFiledialog() {
-		fd = new FileDialog(ui, "Log 파일 선택", FileDialog.LOAD);
-		fd.setVisible(true);
+		try {
+			logio.openLog();
+			System.out.println(logio.getFilePath());
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException npe) {
+		} 
 	}
 	
 	// View 버튼
-	public void viewOpen() {
+	public void viewOpen() throws IOException {
 		openFiledialog();
+		
+		new Function2(ui).countHttpStatusCode();
 		
 	}
 	//Report 버튼
 	public void reportOpen() {
-		openFiledialog();
+		if(ui.getLfe().isAuthority()) {
+			openFiledialog();
+		} else {
+			JOptionPane.showMessageDialog(ui, "접근권한이 없는 아이디 입니다.\n자세한 사항은 해당 부서에 문의하세요.");
+		}
 		
 	}
 
@@ -50,7 +65,11 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	public void actionPerformed(ActionEvent ae) {
 		// viewOpen
 		if (ae.getSource() == ui.getjbView()) {
-			viewOpen();
+			try {
+				viewOpen();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} // end if
 		if( ae.getSource() == ui.getjbReport()) {
 			reportOpen();
@@ -65,7 +84,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 			}//end if
 		}//end if
 	}//keyPressed
-
+	
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}

@@ -3,14 +3,16 @@ package Login;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginEvt extends WindowAdapter implements ActionListener {
+public class LoginEvt extends WindowAdapter implements ActionListener, KeyListener {
 	
-	private boolean authority;
+	boolean authority;
 	private LoginFrame lf;
 	private Map<String, String> mapAccount;
 	
@@ -54,14 +56,19 @@ public class LoginEvt extends WindowAdapter implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(loginProccess()) {
-			System.out.println("로그인 성공!");
-		} else {
-			lf.getJlblTitle().setText("로그인 실패");
-			lf.getJlblTitle().setForeground(Color.RED);
-		}
+	public void actionPerformed(ActionEvent ae) {
+		if((ae.getSource() == lf.getJpfPW()) || ae.getSource() == lf.getJbtnLogin()) {
+			if(loginProccess()) {
+				lf.getJlblTitle().setText("로그인 성공");
+				lf.getJlblTitle().setForeground(Color.GREEN);
+				lf.setVisible(false);
+				new Ui(this);
+			} else {
+				lf.getJlblTitle().setText("로그인 실패");
+				lf.getJlblTitle().setForeground(Color.RED);
+			}
 		System.out.println("눌림");
+		}
 	}
 
 	@Override
@@ -69,6 +76,20 @@ public class LoginEvt extends WindowAdapter implements ActionListener {
 		lf.dispose();
 	}
 	
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+			if ( !lf.getJtfID().getText().isEmpty()) {
+				lf.getJpfPW().requestFocus();
+			}//end if
+		}//end if
+	}//keyPressed
+
 	
+	@Override
+	public void keyTyped(KeyEvent e) {}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {}
 
 }
