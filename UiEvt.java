@@ -29,7 +29,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	public void openFiledialog() {
 		try {
 			logio.openLog();
-			System.out.println(logio.getFilePath());
+			System.out.println(logio.filePath);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	// View 버튼
 	public void viewOpen() throws IOException {
 		openFiledialog();
-		
+		new Function(ui);
 		new Function2(ui).countHttpStatusCode();
 		
 	}
@@ -48,6 +48,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	public void reportOpen() {
 		if(ui.getLfe().isAuthority()) {
 			openFiledialog();
+			
 		} else {
 			JOptionPane.showMessageDialog(ui, "접근권한이 없는 아이디 입니다.\n자세한 사항은 해당 부서에 문의하세요.");
 		}

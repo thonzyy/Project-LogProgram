@@ -15,6 +15,15 @@ public class Function {
 	
 	public Function(Ui ui) {
 		this.ui = ui;
+		
+		try {
+			function_1();
+			function_2();
+			function_4();
+			System.out.println("-------------");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 1. 최다사용 키의 이름과 횟수를 출력하는 method

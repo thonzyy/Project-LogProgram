@@ -1,12 +1,16 @@
 package Login;
 
 
+
 import java.awt.FileDialog;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -19,7 +23,7 @@ import javax.swing.JOptionPane;
 
 public class LogIO {
 	
-	private String filePath;
+	/*private*/ static String filePath;
 	private List<String> logList;
 	private Ui ui;
 	
@@ -28,10 +32,10 @@ public class LogIO {
 	}
 
 	//log파일인지 확인 후 파일 경로 저장
-	public void openLog() throws FileNotFoundException, NullPointerException {
+	public void openLog() throws FileNotFoundException {
 		//filePath = "";
-//		JFrame jm = new JFrame(); //임시 JFrame
-		FileDialog fdOpen = new FileDialog(ui/*JFrame*/, "Log File Open", FileDialog.LOAD);
+		JFrame jm = new JFrame(); //임시 JFrame
+		FileDialog fdOpen = new FileDialog(jm/*JFrame*/, "Log File Open", FileDialog.LOAD);
 		fdOpen.setVisible(true);
 		
 		String fileName = fdOpen.getFile();
@@ -48,12 +52,21 @@ public class LogIO {
 	 }
 	
 	//List에 LogData 저장
+	//filepath!=null일 때 호출
+	//openLog(); 
+	//if(filePath!=null) readLog();
 	public List<String> readLog() throws IOException {
 		logList = new ArrayList<String>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));
+		BufferedReader br = null;
 		String logData = "";
-		while((logData = br.readLine()) != null) {
-			logList.add(logData);
+		
+		try {
+			br = new BufferedReader(new FileReader(new File(filePath)));
+			while((logData = br.readLine()) != null) {
+				logList.add(logData);
+			}	
+		}finally {
+			if(br!=null) br.close();
 		}
 
 		return logList;
@@ -69,28 +82,29 @@ public class LogIO {
 			file.mkdirs();
 		}
 		
-		OutputStreamWriter osw = null;
+		//OutputStreamWriter osw = null;
+		BufferedWriter bw = null;
 		
 		//지정한 경로와 이름으로 레포트 생성
 		try {
-			osw = new OutputStreamWriter(new FileOutputStream(file.getAbsolutePath() + reportName));
-			osw.write("레포트 내용~");
-			osw.flush();
+			bw = new BufferedWriter(new FileWriter(file.getAbsolutePath() + reportName));
+			bw.write("레포트내용~");
+			bw.flush();
+			//osw = new OutputStreamWriter(new FileOutputStream(file.getAbsolutePath() + reportName));
+			//osw.write("레포트 내용~");
+			//osw.flush();`
 		}finally {
-			if(osw!=null) osw.close();
+			//if(osw!=null) osw.close();
+			if(bw!=null) bw.close();
 		}
 	}
 	
-	public String getFilePath() {
-		return filePath;
-	}
-	
-	//test한거 메인은 날리기~
+//	//메인은 날리기~
 //	public static void main(String[] args) {
 //		try {
 //			LogIO logio = new LogIO();
 //			logio.openLog();
-//			logio.writeReport();
+//			System.out.println(logio.readLog().get(0));
 //			//List<String> li = logio.readLog();
 //			//System.out.println(li.get(969));
 //		} catch (IOException e) {
