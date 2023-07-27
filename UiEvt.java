@@ -29,7 +29,6 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	public void openFiledialog() {
 		try {
 			logio.openLog();
-			System.out.println(logio.filePath);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -40,6 +39,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	// View 버튼
 	public void viewOpen() throws IOException {
 		openFiledialog();
+		new UiResult(ui);
 		new Function(ui);
 		new Function2(ui).countHttpStatusCode();
 		
@@ -57,7 +57,6 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 
 	// log 파일 선택 메소드
 	public void selectLog() {
-		String dirPath = fd.getDirectory();
 		fName = fd.getFile();
 		System.out.println(fName);
 	}

@@ -12,6 +12,8 @@ public class ReadLogFile {
 	private static List<String> logList2;
 	
 	public ReadLogFile(Ui ui) {
+		this.ui = ui;
+		
 		try {
 			logList2 = new LogIO(ui).readLog();
 		} catch (IOException e) {

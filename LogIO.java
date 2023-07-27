@@ -23,7 +23,10 @@ import javax.swing.JOptionPane;
 
 public class LogIO {
 	
-	/*private*/ static String filePath;
+	static String filePath;
+	
+	private String Name;
+	private long madeTime;
 	private List<String> logList;
 	private Ui ui;
 	
@@ -38,13 +41,15 @@ public class LogIO {
 		FileDialog fdOpen = new FileDialog(jm/*JFrame*/, "Log File Open", FileDialog.LOAD);
 		fdOpen.setVisible(true);
 		
-		String fileName = fdOpen.getFile();
 		String fileDir = fdOpen.getDirectory();
+		String fileName = fdOpen.getFile();
 		
 		if(fdOpen!=null) {
 			//.log로 끝나는지 확인
 			if(fileName.substring(fileName.lastIndexOf(".")).equals(".log")) {
 				filePath = fileDir + fileName;
+				File file = new File(filePath);
+				
 			}else {
 				JOptionPane.showMessageDialog(null, "Log파일이 아닙니다.","Error Message",JOptionPane.ERROR_MESSAGE);
 			}			
