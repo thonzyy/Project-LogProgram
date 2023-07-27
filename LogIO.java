@@ -1,19 +1,16 @@
-package report;
+package login;
+
+
 
 import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -21,8 +18,18 @@ import javax.swing.JOptionPane;
 
 public class LogIO {
 	
-	private String filePath;
+	@SuppressWarnings("unused")
+	private Ui ui;
+	
+	static String filePath;
+	
+	private String nameMyeong;
+	private long madeTime;
 	private List<String> logList;
+	
+	public LogIO(Ui ui) {
+		this.ui = ui;
+	}
 
 	//log파일인지 확인 후 파일 경로 저장
 	public void openLog() throws FileNotFoundException {
@@ -31,13 +38,17 @@ public class LogIO {
 		FileDialog fdOpen = new FileDialog(jm/*JFrame*/, "Log File Open", FileDialog.LOAD);
 		fdOpen.setVisible(true);
 		
-		String fileName = fdOpen.getFile();
 		String fileDir = fdOpen.getDirectory();
+		String fileName = fdOpen.getFile();
 		
 		if(fdOpen!=null) {
 			//.log로 끝나는지 확인
 			if(fileName.substring(fileName.lastIndexOf(".")).equals(".log")) {
 				filePath = fileDir + fileName;
+				File file = new File(filePath);
+				madeTime = file.lastModified();
+				nameMyeong = file.getName();
+				
 			}else {
 				JOptionPane.showMessageDialog(null, "Log파일이 아닙니다.","Error Message",JOptionPane.ERROR_MESSAGE);
 			}			
@@ -63,6 +74,23 @@ public class LogIO {
 		}
 
 		return logList;
+	}
+	
+	public List<String> readLog(int start, int finish) throws IOException {
+		logList = new ArrayList<String>();
+		BufferedReader br = null;
+		String logData = "";
+		
+		try {
+			br = new BufferedReader(new FileReader(new File(filePath)));
+			while((logData = br.readLine()) != null) {
+				logList.add(logData);
+			}	
+		}finally {
+			if(br!=null) br.close();
+		}
+		
+		return logList.subList(start, finish);
 	}
 	 
 	//레포트 생성
@@ -91,17 +119,13 @@ public class LogIO {
 			if(bw!=null) bw.close();
 		}
 	}
-	
-	//메인은 날리기~
-	public static void main(String[] args) {
-		try {
-			LogIO logio = new LogIO();
-			logio.openLog();
-			System.out.println(logio.readLog().get(0));
-			//List<String> li = logio.readLog();
-			//System.out.println(li.get(969));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+	public String getNameMyeong() {
+		return nameMyeong;
 	}
+
+	public long getMadeTime() {
+		return madeTime;
+	}
+	
 }

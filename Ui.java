@@ -1,11 +1,9 @@
-package kr.co.sist.log;
+package login;
+
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +14,9 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class Ui extends JFrame {
+	
+	private LoginEvt lfe;
+	
 	private JButton jbView;
 	private JButton jbReport;
 	private JTextField jtStart;
@@ -23,10 +24,12 @@ public class Ui extends JFrame {
 	private JLabel jlStart;
 	private JLabel jlEnd;
 
-	public Ui() {
+	public Ui(LoginEvt lfe) {
 		super("Log Info");
+		
+		this.lfe = lfe;
 
-		ImageIcon icon = new ImageIcon("C:/Users/dltmd/Desktop/backg.jpg");
+		ImageIcon icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/Login/image/backg.jpg");
 		JPanel background = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -99,10 +102,14 @@ public class Ui extends JFrame {
 	public JTextField getjtEnd() {
 		return jtEnd;
 	}
+	
+	public LoginEvt getLfe() {
+		return lfe;
+	}
 
-	public static void main(String[] args) {
-		new Ui();
-
-	}// main
+//	public static void main(String[] args) {
+//		new Ui();
+//
+//	}// main
 
 }// class
