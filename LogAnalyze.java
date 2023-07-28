@@ -1,4 +1,4 @@
-package login;
+package log;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -8,9 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 public class LogAnalyze {
 	
 	private Ui ui;
+	private LogIO logio;
 	
 	private List<String> logList;
 	private Map<String, Integer> logMap;
@@ -19,25 +22,34 @@ public class LogAnalyze {
     private String[] responseResultName;
     private int[] responseResultNum;
     private String[] webSites;
-    private List<Integer> number;
+//    private List<Integer> number;
+	
 	
 	public LogAnalyze(Ui ui, LogIO logio) {
-		try {
-			this.ui = ui;
-			logList = logio.readLog();
-			init();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.ui = ui;
+		this.logio = logio;
+		setLoglist();
+		init();
 	}
 	
-	public LogAnalyze(Ui ui, LogIO logio, int start, int finish) {
+	
+	public void setLoglist() {
+		String start = ui.getjtStart().getText();
+		String end = ui.getjtEnd().getText();
+
 		try {
-			this.ui = ui;
-			logList = logio.readLog(start, finish);
-			init();
+			if (!start.isEmpty() && !end.isEmpty()) {
+				logList = logio.readLog(Integer.parseInt(start), Integer.parseInt(end));
+			} else if(start.isEmpty() && !end.isEmpty()) {
+				logList = logio.readLog(0, Integer.parseInt(end));
+			} else if(start.isEmpty() && end.isEmpty()) {
+				logList = logio.readLog();
+			} else {
+				JOptionPane.showMessageDialog(ui, "잘 못 입력하셨습니다.");
+			}
 			
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,9 +64,12 @@ public class LogAnalyze {
 		StringBuilder sbResultList = new StringBuilder();
 		
 			try {
-				sbResultList.append(analyzeKey_Name());
-				sbResultList.append(analyzeWebBrowser());
-				sbResultList.append(analyzeTime());
+				sbResultList.append("파일명 : ").append(logio.getFileMyeong());
+				sbResultList.append("생성일 : ").append(logio.getMadeTime()).append("\n");
+				sbResultList.append("최다사용 키의 이름과 횟수 : ").append(analyzeKey_Name()).append("\n");
+				sbResultList.append("브라우저별 접속 횟수, 비율 :\n").append(analyzeWebBrowser());
+				sbResultList.append("요청이 가장 많은 시간 [ ").append(analyzeTime()).append(" ]\n");
+				sbResultList.append("브라우저별 요청 처리결과 횟수, 비율 :\n");
 				sbResultList.append(printResult());
 				
 			} catch (IOException e) {
@@ -188,7 +203,7 @@ public class LogAnalyze {
 				} // end if
 			} // end for
 
-			return maxTimeSlot + "시\n";
+			return maxTimeSlot + "시";
 
 		}// function_4
 		
@@ -210,8 +225,7 @@ public class LogAnalyze {
 	            }
 	            responseResultNum[flag]++;
 	        }
-	        requestNum = number.size(); // 전체 요청 개수 설정
-	        printResult();
+	        requestNum = logList.size(); // 전체 요청 개수 설정
 	        
 	    }
 	    
@@ -251,19 +265,30 @@ public class LogAnalyze {
 			return logIntList;
 		}
 
-	    public String calCodeShare() {
-	    	StringBuilder sb = new StringBuilder();
-	    	
-	    	for(int i = 0; i < responseResultName.length; i++) {
-	    		sb.append(responseResultName[i]);
-		        sb.append(String.format(" : %4.2f %\n", (responseResultNum[i] / (double) requestNum) * 100));
-	    	}
-	        
-	    	return sb.toString();
-	    }
+		public String calCodeShare() {
+			StringBuilder sb = null;
+			DecimalFormat df = new DecimalFormat("0.00");
+			
+			sb = new StringBuilder();
+
+			for (int i = 0; i < responseResultName.length; i++) {
+				sb.append(responseResultName[i]).append(" : ");
+				sb.append(responseResultNum[i]);
+				sb.append(" ( ").append(df.format((responseResultNum[i] / (double) requestNum) * 100)).append("% )\n");
+			}
+
+			return sb.toString();
+		}
 
 	    public String printResult() {
 	    	// 결과 출력
+	    	try {
+				countHttpStatusCode();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    	
 			return calCodeShare();
 	    }
 	

@@ -1,4 +1,4 @@
-package login;
+package log;
 
 
 
@@ -29,7 +29,7 @@ public class UiResult extends JDialog {
     public UiResult(UiEvt uie) {
     	this.uie = uie;
     	
-        icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/Login/image/backgr.jpg");
+        icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backgr.jpg");
         jp = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -75,20 +75,7 @@ public class UiResult extends JDialog {
     }
 
 	public void setViewInfo() {
-		Ui ui = uie.getUi();
-		String start = ui.getjtStart().getText();
-		String end = ui.getjtEnd().getText();
-		
-		LogAnalyze la = null;
-		
-		if(!start.isEmpty() && !end.isEmpty()) {
-			la = new LogAnalyze(ui, uie.getLogio(), Integer.parseInt(start), Integer.parseInt(end));
-		}
-		else {
-			la = new LogAnalyze(ui, uie.getLogio());
-		}
-		viewInfo = la.totalResult();
-		
+		viewInfo = new LogAnalyze(uie.getUi(), uie.getLogio()).totalResult();
 	}
     
 }

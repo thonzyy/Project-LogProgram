@@ -1,4 +1,4 @@
-package login;
+package log;
 
 
 import java.awt.FileDialog;
@@ -33,17 +33,14 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 	// View 버튼
 	public void viewOpen() throws NullPointerException, IOException {
 		openFiledialog();
-		
 		new UiResult(this);
-		new Function(ui);
-		new Function2(ui).countHttpStatusCode();
 		
 	}
 	//Report 버튼
-	public void reportOpen() throws FileNotFoundException, NullPointerException {
+	public void reportOpen() throws NullPointerException, IOException {
 		if(ui.getLfe().isAuthority()) {
 			openFiledialog();
-			
+			logio.writeReport();
 		} else {
 			JOptionPane.showMessageDialog(ui, "접근권한이 없는 아이디 입니다.\n자세한 사항은 해당 부서에 문의하세요.");
 		}
@@ -77,7 +74,7 @@ public class UiEvt extends WindowAdapter implements ActionListener, KeyListener 
 		if( ae.getSource() == ui.getjbReport()) {
 			try {
 				reportOpen();
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 			}

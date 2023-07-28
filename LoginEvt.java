@@ -1,4 +1,4 @@
-package login;
+package log;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

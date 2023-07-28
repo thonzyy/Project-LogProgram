@@ -1,4 +1,4 @@
-package login;
+package log;
 
 
 
@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class LogIO {
 	
 	static String filePath;
 	
-	private String nameMyeong;
+	private String fileMyeong;
 	private long madeTime;
 	private List<String> logList;
 	
@@ -47,7 +48,7 @@ public class LogIO {
 				filePath = fileDir + fileName;
 				File file = new File(filePath);
 				madeTime = file.lastModified();
-				nameMyeong = file.getName();
+				fileMyeong = file.getName();
 				
 			}else {
 				JOptionPane.showMessageDialog(null, "Log파일이 아닙니다.","Error Message",JOptionPane.ERROR_MESSAGE);
@@ -105,11 +106,17 @@ public class LogIO {
 		
 		//OutputStreamWriter osw = null;
 		BufferedWriter bw = null;
+		LogAnalyze la = new LogAnalyze(ui, this);
+		
 		
 		//지정한 경로와 이름으로 레포트 생성
 		try {
 			bw = new BufferedWriter(new FileWriter(file.getAbsolutePath() + reportName));
-			bw.write("레포트내용~");
+			bw.write("파일명:"+fileMyeong);
+			bw.write("\t");
+			bw.write("생성일:"+getMadeTimeByString());
+			bw.write("\n");
+			bw.write(la.totalResult());
 			bw.flush();
 			//osw = new OutputStreamWriter(new FileOutputStream(file.getAbsolutePath() + reportName));
 			//osw.write("레포트 내용~");
@@ -120,12 +127,17 @@ public class LogIO {
 		}
 	}
 
-	public String getNameMyeong() {
-		return nameMyeong;
+	public String getFileMyeong() {
+		return fileMyeong;
 	}
 
 	public long getMadeTime() {
 		return madeTime;
+	}
+	
+	public String getMadeTimeByString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		return sdf.format(madeTime);
 	}
 	
 }

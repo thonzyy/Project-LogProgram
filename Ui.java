@@ -1,4 +1,4 @@
-package login;
+package log;
 
 
 import java.awt.Color;
@@ -29,7 +29,7 @@ public class Ui extends JFrame {
 		
 		this.lfe = lfe;
 
-		ImageIcon icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/Login/image/backg.jpg");
+		ImageIcon icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backg.jpg");
 		JPanel background = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -81,6 +81,7 @@ public class Ui extends JFrame {
 		addWindowListener(ue);
 
 		setSize(900, 430);
+		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,4 +1,4 @@
-package login;
+package log;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -27,7 +27,7 @@ public class LoginFrame extends JFrame {
 	public LoginFrame() {
 		super("로그인");
 		
-		icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/Login/image/backgLogin.jpg");
+		icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backgLogin.jpg");
 		jpbackground = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
