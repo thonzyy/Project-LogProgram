@@ -28,8 +28,7 @@ public class UiResult extends JDialog {
     public UiResult(UiEvt uie) {
     	this.uie = uie;
     	
-//        icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backgr.jpg");
-        icon = new ImageIcon("/Users/marklim/Documents/ForCoding/workplace/tempFour/src/log/image/backgr.jpg");
+        icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backgr.jpg");
         jp = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {

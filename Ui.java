@@ -29,8 +29,7 @@ public class Ui extends JFrame {
 		
 		this.lfe = lfe;
 
-//		ImageIcon icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backg.jpg");
-		ImageIcon icon = new ImageIcon("/Users/marklim/Documents/ForCoding/workplace/tempFour/src/log/image/backg.jpg");
+		ImageIcon icon = new ImageIcon("E:/dev/workspace/TeamProject4/src/log/image/backg.jpg");
 		JPanel background = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
