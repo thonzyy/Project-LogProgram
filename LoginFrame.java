@@ -66,7 +66,7 @@ public class LoginFrame extends JFrame {
 		
 		jbtnLogin = new JButton("로그인");
 		jbtnLogin.setBounds(150, jlblPW.getY()+50, 80, 35);
-		jbtnLogin.setBackground(new Color(254, 231, 21));
+		jbtnLogin.setBackground(new Color(254, 231, 21)); //버튼색 변경
 		
 		LoginEvt le = new LoginEvt(this);
 		jbtnLogin.addActionListener(le);
